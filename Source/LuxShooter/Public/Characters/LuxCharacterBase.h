@@ -6,14 +6,25 @@
 #include "GameFramework/Character.h"
 #include "LuxCharacterBase.generated.h"
 
+class UCameraComponent;
+
 UCLASS()
 class LUXSHOOTER_API ALuxCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", meta=(AllowPrivateAccess="true"))
+	UCameraComponent* CameraComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", meta = (AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* Mesh1P;
+
 public:
 	// Sets default values for this character's properties
 	ALuxCharacterBase();
+
+	UCameraComponent* GetCameraComponent() { return CameraComp; }
+	USkeletalMeshComponent* GetMesh1P() { return Mesh1P; }
 
 protected:
 	// Called when the game starts or when spawned
