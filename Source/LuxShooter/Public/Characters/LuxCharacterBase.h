@@ -37,4 +37,32 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void MoveUp(float Value);
+	void Turn(float Value); // used for mouse
+	void TurnRate(float Value);  // used for controllers
+	void LookUp(float Value);  // used for mouse
+	void LookUpRate(float Value); // used for controllers
+
+	void StartJump();
+	void StopJump();
+	void StartShoot();
+	void StopShoot();
+	void StartSprint();
+	void StopSprint();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lux")
+	float BaseTurnRate = 45.0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lux")
+	float BaseLookAtRate = 45.0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lux")
+	float MaxSprintSpeed = 900.0;
+
+private:
+
+	float DefaultWalkSpeed;
+
 };
