@@ -20,7 +20,9 @@ ALuxCharacterBase::ALuxCharacterBase()
 	Mesh1P->SetOwnerNoSee(false);
 	Mesh1P->SetCastShadow(false);
 	Mesh1P->SetReceivesDecals(false);
-
+	
+	GetMesh()->SetOnlyOwnerSee(false);
+	GetMesh()->SetOwnerNoSee(true);
 
 }
 

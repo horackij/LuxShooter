@@ -84,3 +84,10 @@ VSCode Files
 /.vscode/*
 BuildingEscape.code-workspace
 
+Content/FirstPerson/Animations/
+Content/FirstPerson/
+Content/FirstPersonBP/
+Content/Geometry/
+Content/Mannequin/
+Content/ThirdPerson/
+Content/ThirdPersonBP/
