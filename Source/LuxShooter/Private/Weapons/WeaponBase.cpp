@@ -24,7 +24,26 @@ AWeaponBase::AWeaponBase()
 
 void AWeaponBase::StartFiring_Implementation()
 {
+	if (!BulletClass)
+	{
+		return;
+	}
 
+	if (RemainingAmmo > 0)
+	{
+		AActor* BulletOwner = GetOwner() ? GetOwner() : this;
+		const FTransform SpawnTransform = MuzzlePoint->GetComponentTransform();
+
+		FActorSpawnParameters Params;
+		Params.Owner = BulletOwner;
+		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		GetWorld()->SpawnActor<AActor>(BulletClass, SpawnTransform, Params);
+	}
+	else  //no ammo
+	{
+
+	}
 }
 
 void AWeaponBase::StopFiring_Implementation()

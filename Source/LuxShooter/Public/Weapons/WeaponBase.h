@@ -30,6 +30,9 @@ public:
 	float RefireRate = 0.1;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
+	int RemainingAmmo = 9999;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
 	bool bFullyAutomatic = false;
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Weapon")
