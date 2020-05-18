@@ -5,6 +5,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Weapons/WeaponBase.h"
 #include "Camera/CameraComponent.h"
 
 // Sets default values
@@ -146,4 +147,35 @@ void ALuxCharacterBase::StopSprint()
 	GetCharacterMovement()->MaxWalkSpeed = DefaultWalkSpeed;
 }
 
+AWeaponBase* ALuxCharacterBase::GetEquipppedWeapon()
+{
+	return EquippedWeapon;
+}
+
+AWeaponBase* ALuxCharacterBase::EquipWeapon(TSubclassOf<AWeaponBase> NewWeapon)
+{
+	if (EquippedWeapon)
+	{
+		UnEquipWeapon();
+	}
+
+	FActorSpawnParameters Params;
+	Params.Owner = this;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	EquippedWeapon = GetWorld()->SpawnActor<AWeaponBase>(NewWeapon, Params);
+
+	EquippedWeapon->AttachToComponent(Mesh1P, FAttachmentTransformRules::SnapToTargetIncludingScale, AttachSocket);
+
+	return EquippedWeapon;
+}
+
+void ALuxCharacterBase::UnEquipWeapon()
+{
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->onUnequipped();
+		EquippedWeapon->Destroy();
+	}
+}
 

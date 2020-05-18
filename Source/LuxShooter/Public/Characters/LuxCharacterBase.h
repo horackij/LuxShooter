@@ -52,6 +52,24 @@ public:
 	void StartSprint();
 	void StopSprint();
 
+private:
+
+	AWeaponBase* EquippedWeapon;
+
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
+	FName AttachSocket;
+
+	UFUNCTION(BlueprintPure, Category="Weapons")
+	AWeaponBase* GetEquipppedWeapon();
+
+	UFUNCTION(BlueprintCallable, Category = "Weapons")
+	AWeaponBase* EquipWeapon(TSubclassOf<AWeaponBase> NewWeapon);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapons")
+	void UnEquipWeapon();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lux")
 	float BaseTurnRate = 45.0;
 

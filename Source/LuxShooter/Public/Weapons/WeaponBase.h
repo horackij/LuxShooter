@@ -41,6 +41,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = "Weapon")
 	void StopFiring();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
+	void onEquipeed();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
+	void onUnequipped();
+
 
 protected:
 	// Called when the game starts or when spawned

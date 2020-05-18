@@ -39,12 +39,14 @@ void AWeaponBase::StartFiring_Implementation()
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		GetWorld()->SpawnActor<AActor>(BulletClass, SpawnTransform, Params);
+
 	}
 	else  //no ammo
 	{
 
 	}
 }
+
 
 void AWeaponBase::StopFiring_Implementation()
 {

@@ -20,7 +20,7 @@ class LUXSHOOTER_API UHealthComponent : public UActorComponent
 
 	float CurrentHealth;
 
-	UFUNCTION(Category = "Health")
+	UFUNCTION()
 	void OnOwnerTakenDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 
 
