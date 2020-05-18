@@ -4,6 +4,7 @@
 #include "Weapons/WeaponBase.h"
 #include "Components/ArrowComponent.h"
 #include "Weapons/BulletBase.h"
+#include "TimerManager.h"
 
 // Sets default values
 AWeaponBase::AWeaponBase()
@@ -29,28 +30,22 @@ void AWeaponBase::StartFiring_Implementation()
 		return;
 	}
 
-	if (RemainingAmmo > 0)
+	if (bFullyAutomatic)
 	{
-		AActor* BulletOwner = GetOwner() ? GetOwner() : this;
-		const FTransform SpawnTransform = MuzzlePoint->GetComponentTransform();
-
-		FActorSpawnParameters Params;
-		Params.Owner = BulletOwner;
-		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		GetWorld()->SpawnActor<AActor>(BulletClass, SpawnTransform, Params);
-
+		GetWorldTimerManager().SetTimer(RefireHandle, this, &AWeaponBase::FireRound, RefireRate, true);
+		FireRound();
 	}
-	else  //no ammo
+	else
 	{
-
+		FireRound();
 	}
+
 }
 
 
 void AWeaponBase::StopFiring_Implementation()
 {
-
+	GetWorldTimerManager().ClearTimer(RefireHandle);
 }
 
 // Called when the game starts or when spawned
@@ -65,5 +60,24 @@ void AWeaponBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AWeaponBase::FireRound()
+{
+	if (RemainingAmmo > 0)
+	{
+		RemainingAmmo--;
+
+		AActor* BulletOwner = GetOwner() ? GetOwner() : this;
+		const FTransform SpawnTransform = MuzzlePoint->GetComponentTransform();
+
+		FActorSpawnParameters Params;
+		Params.Owner = BulletOwner;
+		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		GetWorld()->SpawnActor<AActor>(BulletClass, SpawnTransform, Params);
+
+		OnFiredRound();
+	}
 }
 

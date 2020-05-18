@@ -61,8 +61,8 @@ void ALuxCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ALuxCharacterBase::StartJump);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Released, this, &ALuxCharacterBase::StopJump);
 
-	PlayerInputComponent->BindAction(TEXT("Shoot"), IE_Pressed, this, &ALuxCharacterBase::StartShoot);
-	PlayerInputComponent->BindAction(TEXT("Shoot"), IE_Released, this, &ALuxCharacterBase::StopShoot);
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ALuxCharacterBase::StartShoot);
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Released, this, &ALuxCharacterBase::StopShoot);
 
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Pressed, this, &ALuxCharacterBase::StartSprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Released, this, &ALuxCharacterBase::StopSprint);
@@ -129,12 +129,18 @@ void ALuxCharacterBase::StopJump()
 
 void ALuxCharacterBase::StartShoot()
 {
-
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->StartFiring();
+	}
 }
 
 void ALuxCharacterBase::StopShoot()
 {
-
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->StopFiring();
+	}
 }
 
 void ALuxCharacterBase::StartSprint()
