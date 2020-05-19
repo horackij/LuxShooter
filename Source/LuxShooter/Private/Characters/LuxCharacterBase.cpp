@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Weapons/WeaponBase.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ALuxCharacterBase::ALuxCharacterBase()
@@ -36,6 +37,13 @@ void ALuxCharacterBase::BeginPlay()
 	Super::BeginPlay();
 	
 	DefaultWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+}
+
+void ALuxCharacterBase::Destroyed()
+{
+	UnEquipWeapon();
+
+	Super::Destroyed();
 }
 
 // Called every frame
@@ -228,9 +236,20 @@ AWeaponBase* ALuxCharacterBase::EquipWeapon(TSubclassOf<AWeaponBase> NewWeapon)
 
 	EquippedWeapon = GetWorld()->SpawnActor<AWeaponBase>(NewWeapon, Params);
 
-	EquippedWeapon->AttachToComponent(Mesh1P, FAttachmentTransformRules::SnapToTargetIncludingScale, AttachSocket);
+	if (EquippedWeapon)
+	{
 
-	return EquippedWeapon;
+		if (UGameplayStatics::GetPlayerCharacter(this, 0) == this)
+		{
+			EquippedWeapon->AttachToComponent(Mesh1P, FAttachmentTransformRules::SnapToTargetIncludingScale, AttachSocket);
+		}
+		else
+		{
+			EquippedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, AttachSocket);
+		}
+		return EquippedWeapon;
+	}
+	return nullptr;
 }
 
 void ALuxCharacterBase::UnEquipWeapon()

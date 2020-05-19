@@ -85,6 +85,6 @@ void ABulletBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	const float FinalDamage = DamageToDeal * DamageMultiplier;
 		
 	UGameplayStatics::ApplyDamage(OtherActor, FinalDamage, nullptr, GetOwner(), UDamageType::StaticClass());
-	this->Destroy();
+	OnImpact(Hit);
 }
 

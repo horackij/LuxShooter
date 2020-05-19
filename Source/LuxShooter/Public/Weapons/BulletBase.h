@@ -28,6 +28,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovementComp;
 
+	UFUNCTION(BlueprintImplementableEvent, Category="Bullet")
+	void OnImpact(const FHitResult& Hit);
 
 protected:
 	// Called when the game starts or when spawned
