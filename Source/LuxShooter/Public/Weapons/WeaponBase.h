@@ -42,10 +42,10 @@ public:
 	void StopFiring();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
-	void onEquipeed();
+	void OnEquipped();
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
-	void onUnequipped();
+	void OnUnequipped();
 
 	
 protected:

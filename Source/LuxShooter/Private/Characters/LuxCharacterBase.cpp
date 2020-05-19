@@ -247,6 +247,7 @@ AWeaponBase* ALuxCharacterBase::EquipWeapon(TSubclassOf<AWeaponBase> NewWeapon)
 		{
 			EquippedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, AttachSocket);
 		}
+		EquippedWeapon->OnEquipped();
 		return EquippedWeapon;
 	}
 	return nullptr;
@@ -256,7 +257,7 @@ void ALuxCharacterBase::UnEquipWeapon()
 {
 	if (EquippedWeapon)
 	{
-		EquippedWeapon->onUnequipped();
+		EquippedWeapon->OnUnequipped();
 		EquippedWeapon->Destroy();
 	}
 }
