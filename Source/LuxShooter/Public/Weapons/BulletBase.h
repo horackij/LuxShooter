@@ -6,6 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "BulletBase.generated.h"
 
+class UProjectileMovementComponent;
+class UStaticMeshComponent;
+class USphereComponent;
+
 UCLASS()
 class LUXSHOOTER_API ABulletBase : public AActor
 {
@@ -14,6 +18,16 @@ class LUXSHOOTER_API ABulletBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABulletBase();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Bullet", meta=(AllowPrivateAccess="true"))
+	UStaticMeshComponent* MeshComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	USphereComponent* HitSphere;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UProjectileMovementComponent* ProjectileMovementComp;
+
 
 protected:
 	// Called when the game starts or when spawned
