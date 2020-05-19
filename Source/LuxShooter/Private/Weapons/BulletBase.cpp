@@ -4,7 +4,10 @@
 #include "Weapons/BulletBase.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "Weapons/WeaponBase.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 
 // Sets default values
 ABulletBase::ABulletBase()
@@ -46,7 +49,7 @@ ABulletBase::ABulletBase()
 void ABulletBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	HitSphere->OnComponentHit.AddDynamic(this, &ABulletBase::OnHit);
 }
 
 // Called every frame
@@ -54,5 +57,34 @@ void ABulletBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABulletBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (!OtherActor)
+	{
+		return;
+	}
+	AWeaponBase* MyGun = Cast<AWeaponBase>(GetOwner());
+	float DamageToDeal;
+	if (MyGun)
+	{
+		DamageToDeal = MyGun->Damage;
+	}
+	else
+	{
+		DamageToDeal = 50;
+	}
+	
+	float DamageMultiplier = 1.0;
+	if (Hit.BoneName == TEXT("Head"))
+	{
+		DamageMultiplier = 2.0;
+	}
+	
+	const float FinalDamage = DamageToDeal * DamageMultiplier;
+		
+	UGameplayStatics::ApplyDamage(OtherActor, FinalDamage, nullptr, GetOwner(), UDamageType::StaticClass());
+	this->Destroy();
 }
 

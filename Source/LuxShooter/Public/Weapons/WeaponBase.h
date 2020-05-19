@@ -59,6 +59,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category="Weapon")
 	void OnFiredRound();
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
+	float Damage = 30;
+
 private:
 
 	UFUNCTION()
