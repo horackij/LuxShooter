@@ -52,13 +52,25 @@ public:
 	void StartSprint();
 	void StopSprint();
 
+	UFUNCTION(BlueprintCallable, Category = "Weapons")
+	void CycleWeapons(bool bForwards);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapons")
+	void GrantWeapon(TSubclassOf<AWeaponBase> NewWeapon, bool bEquip);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapons")
+	void RemoveWeapon(TSubclassOf<AWeaponBase> Weapon);
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")
+	TArray<TSubclassOf<AWeaponBase>> WeaponInventory;
+
 private:
 
 	AWeaponBase* EquippedWeapon;
 
 public:
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapons")
 	FName AttachSocket;
 
 	UFUNCTION(BlueprintPure, Category="Weapons")

@@ -153,6 +153,63 @@ void ALuxCharacterBase::StopSprint()
 	GetCharacterMovement()->MaxWalkSpeed = DefaultWalkSpeed;
 }
 
+void ALuxCharacterBase::CycleWeapons(bool bForwards)
+{
+	if (WeaponInventory.Num() == 0)
+	{
+		return;
+	}
+
+	int CurrentEquippedID = WeaponInventory.Find(EquippedWeapon->GetClass());
+
+	if (CurrentEquippedID == INDEX_NONE)
+	{
+		CurrentEquippedID = 0;
+	}
+
+	int DesiredID;
+
+	int y = WeaponInventory.Num();
+
+	if (bForwards)
+	{
+		int x = CurrentEquippedID + 1;
+		DesiredID = FMath::Fmod(x, y);
+	}
+	else
+	{
+		int x = CurrentEquippedID - 1;
+		DesiredID = ((x % y) + y) % y;
+	}
+	if (!WeaponInventory[DesiredID]->IsValidLowLevel())
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to find valid weapon class in %s"), *GetName());
+		return;
+	}
+	EquipWeapon(WeaponInventory[DesiredID]);
+}
+
+void ALuxCharacterBase::GrantWeapon(TSubclassOf<AWeaponBase> NewWeapon, bool bEquip)
+{
+	WeaponInventory.AddUnique(NewWeapon);
+
+	if (bEquip)
+	{
+		EquipWeapon(NewWeapon);
+	}
+}
+
+void ALuxCharacterBase::RemoveWeapon(TSubclassOf<AWeaponBase> Weapon)
+{
+	if (GetEquipppedWeapon()->IsA(Weapon))
+	{
+		UnEquipWeapon();
+
+	}
+
+	WeaponInventory.Remove(Weapon);
+}
+
 AWeaponBase* ALuxCharacterBase::GetEquipppedWeapon()
 {
 	return EquippedWeapon;
