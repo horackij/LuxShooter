@@ -3,11 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "GridCoords.generated.h"
 
 USTRUCT(BlueprintType)
 struct FGridCoord
 {
+
+public:
+
 	GENERATED_BODY()
 
 	// GridLocation Column, or Y component
@@ -92,4 +96,54 @@ FORCEINLINE FGridCoord FGridCoord::operator*(FGridCoord& V) const
 FORCEINLINE uint32 GetTypeHash(const FGridCoord& V)
 {
 	return FCrc::MemCrc_DEPRECATED(&V, sizeof(FGridCoord));
+}
+
+UCLASS()
+class UGridCoordinateLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+
+public:
+
+	UFUNCTION(BlueprintPure, Category="Grids", meta=(DisplayName = "Equal (GridCoords)", CompactNodeTitle = "==", Keywords = "equal =", ToolTip = "Return true if A is equal to B"))
+	static bool Equal_CoordCoord(FGridCoord A, FGridCoord B);
+
+	UFUNCTION(BlueprintPure, Category = "Grids", meta = (DisplayName = "Multiply (float)", CompactNodeTitle = "*", Keywords = "multiply * times", ToolTip = "A * B"))
+	static FGridCoord Multiply_CoordFloat(FGridCoord A, float B);
+
+	UFUNCTION(BlueprintPure, Category = "Grids", meta = (DisplayName = "Multiply (int)", CompactNodeTitle = "*", Keywords = "multiply * times", ToolTip = "A * B"))
+	static FGridCoord Multiply_CoordInt(FGridCoord A, int B);
+
+	UFUNCTION(BlueprintPure, Category = "Grids", meta = (DisplayName = "Multiply (vector2D)", CompactNodeTitle = "*", Keywords = "multiply * times", ToolTip = "A * B"))
+	static FGridCoord Multiply_CoordCoord(FGridCoord A, FGridCoord B);
+
+	UFUNCTION(BlueprintPure, Category = "Grids", meta = (DisplayName = "Convert to vector2D", CompactNodeTitle = "conv", BlueprintAutocast, Keywords = "convert convVector2D", ToolTip = "Convert to vector2D"))
+	static FVector2D Conv_GridCoordToVector2D(FGridCoord A);
+
+};
+
+
+bool UGridCoordinateLibrary::Equal_CoordCoord(FGridCoord A, FGridCoord B)
+{
+	return A == B;
+}
+
+FGridCoord UGridCoordinateLibrary::Multiply_CoordFloat(FGridCoord A, float B)
+{
+	return A * B;
+}
+
+FGridCoord UGridCoordinateLibrary::Multiply_CoordInt(FGridCoord A, int B)
+{
+	return A * B;
+}
+
+FGridCoord UGridCoordinateLibrary::Multiply_CoordCoord(FGridCoord A, FGridCoord B)
+{
+	return A * B;
+}
+
+FVector2D UGridCoordinateLibrary::Conv_GridCoordToVector2D(FGridCoord A)
+{
+	return FVector2D(A.Row, A.Col);
 }
