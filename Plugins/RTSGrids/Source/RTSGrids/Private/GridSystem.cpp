@@ -42,6 +42,78 @@ TArray<FGridCoord> AGridSystem::GenerateGrid()
 	return GeneratedGrid;
 }
 
+FVector AGridSystem::GetGridOriginRelative()
+{
+	FVector Result;
+	const float CellHalfSize = CellSize * 0.5;
+
+	Result.X = ((GridDimensions.Row * 0.5) * CellSize) - CellHalfSize;
+	Result.Y = ((GridDimensions.Col * 0.5) * CellSize) - CellHalfSize;
+	Result.Z = 0.0;
+	return Result;
+}
+
+FVector AGridSystem::GetGridOriginWorld()
+{
+	return GetGridOriginRelative() + GetActorLocation();
+}
+
+FVector2D AGridSystem::GetGridSize()
+{
+	return FVector2D(GridDimensions.Row * CellSize, GridDimensions.Col * CellSize);
+}
+
+FVector2D AGridSystem::GetGridExtents()
+{
+	return GetGridSize() * 0.5;
+}
+
+FVector AGridSystem::GetGridRelativeFromWorld(FVector WorldLocation)
+{
+	return WorldLocation - GetActorLocation();
+}
+
+FVector AGridSystem::GetCellCenterFromRelative(FVector RelativeLocation, bool bReturnWorldSpace)
+{
+	int ID;
+
+	const FGridCoord Coord = GetCoordinateFromRelative(RelativeLocation, ID);
+
+	FVector CellCenter;
+
+	CellCenter.X = Coord.Row * CellSize;
+	CellCenter.Y = Coord.Col * CellSize;
+	CellCenter.Z = 0.0;
+
+	return bReturnWorldSpace ? CellCenter + GetActorLocation() : CellCenter;
+
+}
+
+bool AGridSystem::IsInGridBounds(FGridCoord Coordinate)
+{
+	return (Coordinate >= FGridCoord(0, 0) && Coordinate < GridDimensions);
+}
+
+bool AGridSystem::IsClearTile(FGridCoord Coordinate)
+{
+
+}
+
+bool AGridSystem::IsValidLocation(FGridCoord Coordinate)
+{
+
+}
+
+FGridCoord AGridSystem::GetCoordinateFromRelative(FVector RelativeLocation, int& CellID)
+{
+
+}
+
+FGridCoord AGridSystem::GetCoordinateFromCellID(int ID)
+{
+
+}
+
 // Called when the game starts or when spawned
 void AGridSystem::BeginPlay()
 {
