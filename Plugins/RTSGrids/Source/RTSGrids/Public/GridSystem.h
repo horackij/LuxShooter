@@ -86,6 +86,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Grids")
 	FGridCoord GetCoordinateFromCellID(int ID);
 
+	UFUNCTION(BlueprintPure, Category = "Grids")
+	int GetCellIDFromCoorinate(FGridCoord Coordinate);
+
 
 protected:
 	// Called when the game starts or when spawned

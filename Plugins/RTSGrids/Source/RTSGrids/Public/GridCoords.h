@@ -47,13 +47,21 @@ public:
 	 */
 	FORCEINLINE FGridCoord(FVector2D InCoord);
 
-	FORCEINLINE bool operator==(FGridCoord& V) const;
+	FORCEINLINE bool operator==(const FGridCoord& V) const;
 
 	FORCEINLINE FGridCoord operator*(float Scale) const;
 
 	FORCEINLINE FGridCoord operator*(int Scale) const;
 
 	FORCEINLINE FGridCoord operator*(FGridCoord& V) const;
+
+	FORCEINLINE FGridCoord operator<(const FGridCoord& V) const;
+
+	FORCEINLINE FGridCoord operator>(const FGridCoord& V) const;
+
+	FORCEINLINE FGridCoord operator<=(const FGridCoord& V) const;
+
+	FORCEINLINE FGridCoord operator>=(const FGridCoord& V) const;
 };
 
 FORCEINLINE FGridCoord::FGridCoord()
@@ -72,7 +80,7 @@ FORCEINLINE FGridCoord::FGridCoord(FVector2D InCoord)
 	: Col(InCoord.Y), Row(InCoord.X)
 {};
 
-FORCEINLINE bool FGridCoord::operator==(FGridCoord& V) const
+FORCEINLINE bool FGridCoord::operator==(const FGridCoord& V) const
 {
 	return Col == V.Col && Row == V.Row;
 }
@@ -92,6 +100,30 @@ FORCEINLINE FGridCoord FGridCoord::operator*(FGridCoord& V) const
 {
 	return FGridCoord(Col * V.Col, Row * V.Row);
 }
+
+FORCEINLINE FGridCoord FGridCoord::operator<(const FGridCoord& V) const
+{
+	return Col < V.Col&& Row < V.Row;
+}
+
+FORCEINLINE FGridCoord FGridCoord::operator>(const FGridCoord& V) const
+{
+	return Col > V.Col && Row > V.Row;
+}
+
+FORCEINLINE FGridCoord FGridCoord::operator<=(const FGridCoord& V) const
+{
+	return Col <= V.Col && Row <= V.Row;
+}
+
+FORCEINLINE FGridCoord FGridCoord::operator>=(const FGridCoord& V) const
+{
+	return Col >= V.Col && Row >= V.Row;
+}
+
+
+
+
 
 FORCEINLINE uint32 GetTypeHash(const FGridCoord& V)
 {

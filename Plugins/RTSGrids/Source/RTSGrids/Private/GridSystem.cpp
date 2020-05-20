@@ -91,27 +91,40 @@ FVector AGridSystem::GetCellCenterFromRelative(FVector RelativeLocation, bool bR
 
 bool AGridSystem::IsInGridBounds(FGridCoord Coordinate)
 {
-	return (Coordinate >= FGridCoord(0, 0) && Coordinate < GridDimensions);
+	return (Coordinate >= FGridCoord(0,0) && Coordinate < GridDimensions);
 }
 
 bool AGridSystem::IsClearTile(FGridCoord Coordinate)
 {
-
+	return !BlockedTiles.Contains(Coordinate);
 }
 
 bool AGridSystem::IsValidLocation(FGridCoord Coordinate)
 {
-
+	return IsInGridBounds(Coordinate) && IsClearTile(Coordinate);
 }
 
 FGridCoord AGridSystem::GetCoordinateFromRelative(FVector RelativeLocation, int& CellID)
 {
+	FGridCoord Coord;
+	Coord.Col = FMath::RoundToInt(RelativeLocation.Y / CellSize);
+	Coord.Row = FMath::RoundToInt(RelativeLocation.X / CellSize);
 
+	CellID = GetCellIDFromCoorinate(Coord);
+	return Coord;
 }
 
 FGridCoord AGridSystem::GetCoordinateFromCellID(int ID)
 {
+	FGridCoord Coord;
+		Coord.Col = ID ? GridDimensions.Row;
+	Coord.Row = ID % GridDimensions.Row;
+	return Coord;
+}
 
+int AGridSystem::GetCellIDFromCoorinate(FGridCoord Coordinate)
+{
+	return (GridDimensions.Row * Coordinate.Col) + Coordinate.Row;
 }
 
 // Called when the game starts or when spawned
