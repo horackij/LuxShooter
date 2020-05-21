@@ -1,7 +1,10 @@
 // Copyright Joe Horacki 2020
 
-
+#include "Components/HierarchicalInstancedStaticMeshComponent.h"
+#include "UObject/ConstructorHelpers.h"
 #include "GridSystem.h"
+#include "Components/TextRenderComponent.h"
+
 
 // Sets default values
 AGridSystem::AGridSystem()
@@ -14,6 +17,19 @@ AGridSystem::AGridSystem()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	RootComp = CreateDefaultSubobject <USceneComponent>(TEXT("Root"));
+	RootComponent = RootComp;
+
+	PreviewGridHISM = CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("PreviewGrid"));
+	PreviewGridHISM->SetupAttachment(RootComp);
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh> PlaneMesh(TEXT("StaticMesh'/Engine/BasicShapes/Plane.Plane'"));
+
+	if (PlaneMesh.Succeeded())
+	{
+		PreviewGridHISM->SetStaticMesh(PlaneMesh.Object);
+	}
 
 }
 
@@ -139,5 +155,36 @@ void AGridSystem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AGridSystem::GenerateVisualGrid()
+{
+	if (bShowPreviewGrid == false)
+	{
+		PreviewGridHISM->ClearInstances();
+	}
+
+	for (auto* text : TextComponents)
+	{
+		text->DestroyComponent();
+	}
+	TextComponents.Empty();
+
+	PreviewGridHISM->ClearInstances();
+
+	PreviewGridHISM->bAutoRebuildTreeOnInstanceChanges = false;
+
+	for (int i = 0; i < GeneratedGrid.Num(); i++)
+	{
+		FGridCoord CurrentTile = GeneratedGrid[i];
+
+		//Generate Mesh Grid
+		if (bShowPreviewGrid && PreviewGridHISM)
+		{
+			const FVector TileLocation = FVector(CurrentTile.Row * CellSize, CurrentTile.Col * CellSize, 0.0);
+			const FTransform T = FTransform(FRotator::ZeroRotator, TileLocation, FVector(CellSize * 0.01));
+			PreviewGridHISM->AddInstance(T);
+		}
+	}
 }
 

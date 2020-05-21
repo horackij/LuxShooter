@@ -9,6 +9,7 @@
 
 class USceneComponent;
 class UHierarchicalInstancedStaticMeshComponent;
+class UTextRenderComponent;
 
 UCLASS(hideCategories = (Physics, LOD, Replication, Cooking, Activation), CollapseCategories = (Actor, INPUT, AssetUserData, Collision, Rendering, Tags), AutoExpandCategories = (Grids), ClassGroup = "GridSystem")
 class RTSGRIDS_API AGridSystem : public AActor
@@ -90,6 +91,8 @@ public:
 	int GetCellIDFromCoorinate(FGridCoord Coordinate);
 
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -97,5 +100,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+
+	void GenerateVisualGrid();
+
+	TArray<UTextRenderComponent*> TextComponents;
 
 };
