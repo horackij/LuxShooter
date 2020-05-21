@@ -117,7 +117,7 @@ FGridCoord AGridSystem::GetCoordinateFromRelative(FVector RelativeLocation, int&
 FGridCoord AGridSystem::GetCoordinateFromCellID(int ID)
 {
 	FGridCoord Coord;
-		Coord.Col = ID ? GridDimensions.Row;
+	Coord.Col = ID / GridDimensions.Row;
 	Coord.Row = ID % GridDimensions.Row;
 	return Coord;
 }

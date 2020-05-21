@@ -55,13 +55,13 @@ public:
 
 	FORCEINLINE FGridCoord operator*(FGridCoord& V) const;
 
-	FORCEINLINE FGridCoord operator<(const FGridCoord& V) const;
+	FORCEINLINE bool operator<(const FGridCoord& V) const;
 
-	FORCEINLINE FGridCoord operator>(const FGridCoord& V) const;
+	FORCEINLINE bool operator>(const FGridCoord& V) const;
 
-	FORCEINLINE FGridCoord operator<=(const FGridCoord& V) const;
+	FORCEINLINE bool operator<=(const FGridCoord& V) const;
 
-	FORCEINLINE FGridCoord operator>=(const FGridCoord& V) const;
+	FORCEINLINE bool operator>=(const FGridCoord& V) const;
 };
 
 FORCEINLINE FGridCoord::FGridCoord()
@@ -101,22 +101,22 @@ FORCEINLINE FGridCoord FGridCoord::operator*(FGridCoord& V) const
 	return FGridCoord(Col * V.Col, Row * V.Row);
 }
 
-FORCEINLINE FGridCoord FGridCoord::operator<(const FGridCoord& V) const
+FORCEINLINE bool FGridCoord::operator<(const FGridCoord& V) const
 {
 	return Col < V.Col&& Row < V.Row;
 }
 
-FORCEINLINE FGridCoord FGridCoord::operator>(const FGridCoord& V) const
+FORCEINLINE bool FGridCoord::operator>(const FGridCoord& V) const
 {
 	return Col > V.Col && Row > V.Row;
 }
 
-FORCEINLINE FGridCoord FGridCoord::operator<=(const FGridCoord& V) const
+FORCEINLINE bool FGridCoord::operator<=(const FGridCoord& V) const
 {
 	return Col <= V.Col && Row <= V.Row;
 }
 
-FORCEINLINE FGridCoord FGridCoord::operator>=(const FGridCoord& V) const
+FORCEINLINE bool FGridCoord::operator>=(const FGridCoord& V) const
 {
 	return Col >= V.Col && Row >= V.Row;
 }

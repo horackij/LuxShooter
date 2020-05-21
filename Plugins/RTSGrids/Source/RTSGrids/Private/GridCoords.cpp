@@ -27,3 +27,6 @@ FVector2D UGridCoordinateLibrary::Conv_GridCoordToVector2D(FGridCoord A)
 {
 	return FVector2D(A.Row, A.Col);
 }
+
+
+
